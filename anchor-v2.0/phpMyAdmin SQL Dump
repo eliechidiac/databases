@@ -1,0 +1,496 @@
+-- phpMyAdmin SQL Dump
+-- version 4.6.5.2
+-- https://www.phpmyadmin.net/
+--
+-- Host: localhost:8889
+-- Generation Time: May 31, 2017 at 12:28 PM
+-- Server version: 5.6.35
+-- PHP Version: 7.0.15
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+-- Database: `anchor`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bookings`
+--
+
+CREATE TABLE `bookings` (
+  `reservation_number` int(12) NOT NULL,
+  `guest_person_email` varchar(32) NOT NULL,
+  `room_number` int(12) NOT NULL,
+  `status` enum('complete','pending','active','removed') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `bookings`
+--
+
+INSERT INTO `bookings` (`reservation_number`, `guest_person_email`, `room_number`, `status`) VALUES
+(1, 'caleb@email.com', 100, 'removed'),
+(18, 'elie@elchidiac.com', 200, 'active'),
+(19, 'hussein@gmail.com', 101, 'pending'),
+(20, 'nadine@gmail.com', 400, 'pending'),
+(21, 'shady@aub.com', 100, 'pending');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cleans`
+--
+
+CREATE TABLE `cleans` (
+  `employee_person_email` varchar(32) NOT NULL,
+  `room_number` int(12) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `cleans`
+--
+
+INSERT INTO `cleans` (`employee_person_email`, `room_number`) VALUES
+('guido@gmail.com', 100),
+('dave@lovel.com', 101),
+('guido@gmail.com', 103),
+('dave@lovel.com', 200),
+('guido@gmail.com', 201);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `employees`
+--
+
+CREATE TABLE `employees` (
+  `person_email` varchar(32) NOT NULL,
+  `working_hours` varchar(12) NOT NULL,
+  `manager_employee_person_email` varchar(32) DEFAULT NULL,
+  `salary` int(12) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `employees`
+--
+
+INSERT INTO `employees` (`person_email`, `working_hours`, `manager_employee_person_email`, `salary`) VALUES
+('cynthia@gmail.com', '8-18', NULL, 1200),
+('dave@lovel.com', '8-13', 'cynthia@gmail.com', 700),
+('guido@gmail.com', '13-18', 'cynthia@gmail.com', 545);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `facilities`
+--
+
+CREATE TABLE `facilities` (
+  `name` varchar(32) NOT NULL,
+  `opening_hours` varchar(16) NOT NULL,
+  `rate` int(12) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `facilities`
+--
+
+INSERT INTO `facilities` (`name`, `opening_hours`, `rate`) VALUES
+('Arcade', '10-22', 5),
+('Bowling', '10-21', 6),
+('Gym', '10-17', 7),
+('Pool', '10-18', 9);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `foods`
+--
+
+CREATE TABLE `foods` (
+  `name` varchar(32) NOT NULL,
+  `type` enum('starters','salads','sandwiches','burgers','platters','desserts','drinks') DEFAULT NULL,
+  `price` float NOT NULL,
+  `food_supplier` varchar(32) NOT NULL,
+  `description` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `foods`
+--
+
+INSERT INTO `foods` (`name`, `type`, `price`, `food_supplier`, `description`) VALUES
+('Apple Crisp', 'desserts', 10.5, 'Lebanese Food', 'Warm apple crumble, topped with vanilla ice cream and salted caramel sauce.'),
+('Breaded Chicken', 'platters', 21.2, 'Golden Food', 'Crispy breaded chicken breast served with a fresh garden side salad and your choice of mashed potatoes, skin-on fries or four cheese pasta.'),
+('Cajun Chicken', 'burgers', 13.7, 'Premium Food', 'Tender grilled chicken breast layered with arugula leaves, a fresh tomato slice, tangy pickles and Cajun aioli sauce.'),
+('Casual Steak', 'platters', 27.5, 'Premium Food', 'Tender grilled beef fillet served with grilled fresh mushrooms, steamed broccoli and carrots, creamy pepper sauce and with your choice of mashed potatoes, skin-on fries or four cheese pasta'),
+('Cheese Garlic Bread', 'starters', 7.7, 'Premium Food', 'Toasted slices of garlic bread topped with melted cheese.'),
+('Chicken Caesar', 'salads', 15.7, 'Lebanese Food', 'Our classic Caesar, topped with tender grilled chicken.'),
+('Chicken Quesadillas', 'starters', 13.7, 'Premium Food', 'A flour tortilla filled with marinated and grilled  chicken strips, melted cheese, mashed beans and mixed with grilled vegetables, served with guacamole, sour cream and Salsa Fresca.'),
+('Chicken Sandwich', 'sandwiches', 12, 'Premium Food', 'Grilled chicken breast, our original skin-on fries, crisp lettuce, fresh tomato slices, tangy pickles and aioli sauce, served in freshly baked baguette.'),
+('Chicken Slider', 'sandwiches', 12.2, 'Lebanese Food', 'Grilled chicken breast, edam cheese, avocado, crisp lettuce and garlic home-style sauce, served in freshly baked  whole-wheat  baguette. '),
+('Chocolate Tower', 'desserts', 13.7, 'Golden Food', 'Warm super-sized chocolate pancakes, drizzled with chocolate sauce and topped with your choice of marshmallows or fresh forest berries. '),
+('Classic', 'burgers', 10.5, 'Lebanese Food', 'Grilled beef patty topped with sautéed onions, melted cheddar cheese, crisp lettuce, a fresh tomato slice, tangy pickles and our classic sauce.'),
+('Classic Caesar', 'salads', 10.7, 'Golden Food', 'Crisp romaine lettuce topped with shaved parmesan, tossed with Caesar dressing and croutons on top.'),
+('Classic Chef', 'salads', 14.5, 'Lebanese Food', 'Crisp iceberg lettuce topped with grilled chicken, sliced smoked turkey or ham, hard-boiled eggs, fresh mushrooms, corn, tomatoes, edam cheese and toasted croutons.'),
+('Cosmic Burger', 'burgers', 24.7, 'Premium Food', 'Grilled prime Angus beef patty topped with crisp bacon, melted cheddar cheese, lettuce, a fresh tomato slice, pickled red onions, dill pickles and our signature Cosmic sauce.'),
+('Crab Slab', 'salads', 14.5, 'Golden Food', 'A fresh mix of shaved crabsticks, iceberg lettuce, ripe avocado, sliced fresh mushrooms, corn and tangy orange slices.'),
+('Crème Brulée Cheesecake', 'desserts', 12.5, 'Lebanese Food', 'A cheesecake that’s anything but traditional with rich crème brulée, drizzled with caramel sauce.'),
+('Crispy Club Sandwich', 'platters', 19.2, 'Lebanese Food', 'Three layers of whole-wheat artisanal bread filled with grilled chicken, Swiss cheese, hard-boiled eggs, tomato, lettuce, pickles, light home-style sauce and your choice of turkey, ham or bacon - served with our original skin-on fries on the side.'),
+('Cuban', 'burgers', 10.5, 'Golden Food', 'Grilled beef patty topped with grilled onions and green peppers, jalapeños, melted cheddar cheese, crisp lettuce, a fresh tomato slice and hot Cuban sauce.'),
+('Diner-Mite', 'burgers', 11.5, 'Lebanese Food', 'Grilled beef patty topped with breaded mozzarella, crisp lettuce, a fresh tomato slice, tangy pickles and cocktail sauce.'),
+('Evergreen', 'burgers', 8.7, 'Premium Food', 'A crispy golden breaded mozzarella patty topped with lettuce, a fresh tomato slice, tangy pickles and our special cocktail sauce.'),
+('Fresh Orange Juice', 'drinks', 5.2, 'Lebanese Food', ''),
+('Fresh-Homestyle Lemonade', 'drinks', 5, 'Premium Food', ''),
+('Grand Lazy Cake', 'desserts', 7.7, 'Golden Food', 'Buttery biscuit crumbs mixed in smooth chocolate cream and satisfaction in every bite.'),
+('Grilled Chicken', 'platters', 21.1, 'Golden Food', 'Juicy grilled chicken breast topped with garlic butter, served with a fresh garden side salad and your choice of mashed potatoes, skin-on fries or four cheese pasta.'),
+('Hot Dawg', 'sandwiches', 11.7, 'Golden Food', 'Grilled beef filled with Swiss cheese and topped with melted cheddar cheese, crispy potato chips, mayo, ketchup and mustard, served in a freshly baked soft roll with coleslaw on the side.'),
+('Iced Tea', 'drinks', 5.2, 'Golden Food', ''),
+('Kale Caesar', 'salads', 19.7, 'Premium Food', 'Fresh kale, romaine lettuce, flame-grilled chicken tenders, avocado, hard-boiled eggs and parmesan sprinkles, tossed with Caesar dressing and served with fresh whole-wheat artisanal bread.'),
+('Lotus Cheesecake', 'desserts', 12.5, 'Premium Food', 'An epic cheesecake with a Lotus biscuit base, drizzled with salted caramel sauce.'),
+('Mashed Potatoes', 'starters', 7.2, 'Lebanese Food', 'Your choice of regular or broccoli cheddar mashed potatoes.'),
+('Mineral Water', 'drinks', 2.3, 'Lebanese Food', ''),
+('Mozarella Sticks', 'starters', 10.2, 'Premium Food', 'Our classic melt-in-your-mouth mozzarella sticks, served with Thousand Island dip.'),
+('Onion Rings', 'starters', 9.3, 'Golden Food', 'A basket of battered onion rings served with Thousand Island dip.'),
+('Pasta \'N\' Cheese', 'salads', 12.5, 'Lebanese Food', 'Pasta mix topped with cheese, fresh iceberg lettuce, fresh mushrooms and corn.'),
+('Philly Chicken', 'sandwiches', 13.2, 'Premium Food', 'Marinated grilled chicken, sautéed onions and bell peppers, fresh tomato and lettuce, layered into freshly baked baguette with melted edam cheese, spicy Cuban sauce and mayo.'),
+('Ranch Chicken Rolls', 'starters', 11.7, 'Premium Food', 'Our take on “egg rolls”.  A crispy flour tortilla filled with chicken, corn, cheese, jalapeños, green onions, red peppers and fresh spinach, served with ranch dip.'),
+('Red Rocket Caprese', 'salads', 19.5, 'Golden Food', 'A colorful mix of fresh lettuce, red rocket leaves, basil, avocado and cherry tomatoes, grilled chicken tenders and fresh baby mozzarella, tossed with basil vinaigrette dressing.'),
+('Shrimp Avocado', 'sandwiches', 18.5, 'Lebanese Food', 'Flame-grilled shrimp hot off the grill, crisp romaine lettuce, ripe avocado, arugula and spicy avocado mayo sauce, served in freshly baked  baguette.'),
+('Skin-On Fries', 'starters', 5.5, 'Lebanese Food', 'A basket of our original unpeeled French fries, crisped to golden perfection.'),
+('Smoky Chicken', 'sandwiches', 14.5, 'Golden Food', 'Grilled chicken, crisp rocket leaves, sautéed fresh mushrooms and onions, melted cheddar cheese, mayo and our signature B.B.B. sauce, served in freshly  baked  baguette.'),
+('Soft Drinks', 'drinks', 2, 'Premium Food', ''),
+('Sparkling Water', 'drinks', 3, 'Premium Food', ''),
+('Tex Mex', 'salads', 18, 'Premium Food', 'Crisp iceberg lettuce topped with house-seasoned grilled chicken, avocado, fresh shredded carrots, cherry tomatoes, crunchy tortillas, corn and grated cheese, tossed with spicy Cuban dressing.'),
+('Veggie Soup', 'starters', 7.7, 'Golden Food', 'Creamy soup made from fresh market vegetables.');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `food_suppliers`
+--
+
+CREATE TABLE `food_suppliers` (
+  `company_name` varchar(32) NOT NULL,
+  `phone_number` bigint(12) NOT NULL,
+  `address` text NOT NULL,
+  `email` varchar(32) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `food_suppliers`
+--
+
+INSERT INTO `food_suppliers` (`company_name`, `phone_number`, `address`, `email`) VALUES
+('Golden Food', 38876787126, 'Mkalles, Main Road\r\nAbou Naoum building, 1st floor\r\nBeirut, Lebanon', 'info@goldenfood.com'),
+('Lebanese Food', 45617890836, 'Zalka, Main Road, Wared building, 1st floor, Beirut, Lebanon', 'info@lebanesefood.com'),
+('Premium Food', 6556378986, 'Baabda, Main Road, Skandar building, 1st floor, Beirut, Lebanon', 'info@premiumfood.com');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `guests`
+--
+
+CREATE TABLE `guests` (
+  `credit_card_number` bigint(12) NOT NULL,
+  `active_booking_number` int(12) DEFAULT NULL,
+  `person_email` varchar(32) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `guests`
+--
+
+INSERT INTO `guests` (`credit_card_number`, `active_booking_number`, `person_email`) VALUES
+(4324543565677656, NULL, 'caleb@email.com'),
+(5435662783747483, 18, 'elie@elchidiac.com'),
+(5346336263547723, 19, 'hussein@gmail.com'),
+(5456335426376273, 20, 'nadine@gmail.com'),
+(4575888543464575, NULL, 'sam@gmail.com'),
+(3424235523525235, 21, 'shady@aub.com');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `persons`
+--
+
+CREATE TABLE `persons` (
+  `first_name` varchar(32) NOT NULL,
+  `last_name` varchar(32) NOT NULL,
+  `phone_number` bigint(12) NOT NULL,
+  `address` text NOT NULL,
+  `email` varchar(32) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `persons`
+--
+
+INSERT INTO `persons` (`first_name`, `last_name`, `phone_number`, `address`, `email`) VALUES
+('Caleb', 'David', 27852529835, 'Celeste Slater,606-3727 Ullamcorper. Street,Roseville NH', 'caleb@email.com'),
+('Cynthia', 'Fischer', 25623737, 'Calista Wise,7292 Dictum Av.,San Antonio MI', 'cynthia@gmail.com'),
+('Dave', 'Lovel', 2536237384, 'Celeste Slater,606-3727 Ullamcorper. Street,Roseville NH', 'dave@lovel.com'),
+('Elie', 'Chidiac', 2356786, 'Dekwaneh', 'elie@elchidiac.com'),
+('Guido', 'Oceanus', 8767898765, 'Cecilia Chapman,711-2880 Nulla St.,Mankato Mississippi', 'guido@gmail.com'),
+('Hussein', 'Harakeh', 2141516, 'Hamra', 'hussein@gmail.com'),
+('Jason', 'Mraz', 12562362, 'Aaron Hawkins,5587 Nunc. Avenue,Erie Rhode Island', 'jason@mraz.com'),
+('Nadine', 'Atoui', 98546789765, 'Hamra', 'nadine@gmail.com'),
+('Samantha', 'Holan', 213144235, 'Cecilia Chapman,711-2880 Nulla St.,Mankato Mississippi', 'sam@gmail.com'),
+('Shady', 'Last', 9876868976, 'Address', 'shady@aub.com');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `reservations`
+--
+
+CREATE TABLE `reservations` (
+  `number` int(12) NOT NULL,
+  `pickup_location` varchar(32) NOT NULL,
+  `checkin_date` date NOT NULL,
+  `checkout_date` date NOT NULL,
+  `payment_method` enum('card','cash') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `reservations`
+--
+
+INSERT INTO `reservations` (`number`, `pickup_location`, `checkin_date`, `checkout_date`, `payment_method`) VALUES
+(1, 'Airport', '2017-05-08', '2017-06-15', 'cash'),
+(18, 'Airport', '2017-05-11', '2017-05-30', 'cash'),
+(19, 'Airport', '2017-05-09', '2017-05-24', 'card'),
+(20, 'Airport', '2017-05-11', '2017-05-26', 'card'),
+(21, 'Airport', '2017-05-13', '2017-05-24', 'cash');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `rooms`
+--
+
+CREATE TABLE `rooms` (
+  `number` int(12) NOT NULL,
+  `is_available` tinyint(1) NOT NULL,
+  `phone_extension` int(12) NOT NULL,
+  `room_type` varchar(32) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `rooms`
+--
+
+INSERT INTO `rooms` (`number`, `is_available`, `phone_extension`, `room_type`) VALUES
+(100, 1, 100, 'Single Room'),
+(101, 1, 101, 'Single Room'),
+(102, 1, 102, 'Single Room'),
+(103, 1, 103, 'Single Room'),
+(200, 1, 200, 'Double Room'),
+(201, 1, 201, 'Double Room'),
+(202, 1, 202, 'Double Room'),
+(203, 1, 203, 'Double Room'),
+(300, 1, 300, 'Junior Suite'),
+(301, 1, 301, 'Junior Suite'),
+(302, 1, 302, 'Junior Suite'),
+(303, 1, 303, 'Junior Suite'),
+(400, 1, 400, 'Family Suite'),
+(401, 1, 401, 'Family Suite'),
+(402, 1, 402, 'Family Suite'),
+(500, 1, 500, 'Grand Suite'),
+(501, 1, 501, 'Grand Suite');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `room_types`
+--
+
+CREATE TABLE `room_types` (
+  `type` varchar(32) NOT NULL,
+  `capacity` int(11) NOT NULL,
+  `description` text NOT NULL,
+  `price` int(11) NOT NULL,
+  `info_list` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `room_types`
+--
+
+INSERT INTO `room_types` (`type`, `capacity`, `description`, `price`, `info_list`) VALUES
+('Double Room', 2, 'Double Rooms provide a space of 35-42m², offering a comfortable stay for one or two guests.', 200, 'Double or Twin beds,Sitting corner with Sofa or Armchairs,Bathroom with Shower,Branded bath amenities,Hairdryer,Bathrobes and Slippers,Safe Deposit Box,LCD TV with satellite channels,Mini-Bar,Air conditioning,Steamer & amenities for making Coffee & Tea'),
+('Family Suite', 4, '2 Separate Bedrooms (1 with king size bed and 1 with bunk beds).', 400, 'Living Room,1 Bathroom with Shower,Branded bath amenities,Hairdryer,Bathrobes and Slippers,Safe Deposit Box,2 LCD TVs with satellite channels,Mini-Bar,Air conditioning,Steamer & amenities for making Coffee & Tea,Balcony or Terrace'),
+('Grand Suite', 6, 'The preferred choice for groups of up to 6 guests, the Grande Suite offers 3 separate bedrooms and a spacious living room at a total of 175m², providing you with a unique stay experience.\r\n', 500, 'Living Room (lower floor),3 Separate Bedrooms (upper floor),2 Bathrooms with Bathtub or Shower,Branded bath amenities,Hairdryer,Bathrobes and Slippers,Safe Deposit Box,2 LCD TVs (32’’ & 22’’) with satellite channels,Mini-Bar,Air conditioning,Steamer & amenities for making Coffee & Tea'),
+('Junior Suite', 2, 'Featuring an elegant space of 45-60m², our Junior Suites invite you to enjoy your vacations with an air of discrete luxury. The separate bedroom and living room provide ample space for an unforgettable two-person stay.', 300, 'Separate Bedroom,Living Room,Bathroom with Shower,Branded bath amenities,Hairdryer,Bathrobes and Slippers,Safe Deposit Box,2 LCD TVs with satellite channels,Mini-Bar,Air conditioning,Steamer & amenities for making Coffee & Tea,Balcony or Terrace'),
+('Single Room', 1, 'Single Rooms provide a space of 30-40m², offering a comfortable stay for one guest.', 100, 'Double bed,Sitting corner with Sofa or Armchairs,Bathroom with Shower,Branded bath amenities,Hairdryer,Bathrobes and Slippers,Safe Deposit Box,LCD TV with satellite channels,Mini-Bar,Air conditioning,Steamer & amenities for making Coffee & Tea,Balcony or Terrace');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `works`
+--
+
+CREATE TABLE `works` (
+  `employee_person_email` varchar(32) NOT NULL,
+  `facility_name` varchar(32) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `works`
+--
+
+INSERT INTO `works` (`employee_person_email`, `facility_name`) VALUES
+('dave@lovel.com', 'Arcade'),
+('cynthia@gmail.com', 'Bowling'),
+('guido@gmail.com', 'Gym'),
+('cynthia@gmail.com', 'Pool'),
+('dave@lovel.com', 'Pool');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `bookings`
+--
+ALTER TABLE `bookings`
+  ADD UNIQUE KEY `reservation_number` (`reservation_number`),
+  ADD KEY `guest` (`guest_person_email`),
+  ADD KEY `room` (`room_number`);
+
+--
+-- Indexes for table `cleans`
+--
+ALTER TABLE `cleans`
+  ADD UNIQUE KEY `employee_person_email` (`employee_person_email`,`room_number`),
+  ADD KEY `cleans_room` (`room_number`);
+
+--
+-- Indexes for table `employees`
+--
+ALTER TABLE `employees`
+  ADD UNIQUE KEY `person_email` (`person_email`),
+  ADD KEY `manager` (`manager_employee_person_email`);
+
+--
+-- Indexes for table `facilities`
+--
+ALTER TABLE `facilities`
+  ADD UNIQUE KEY `name` (`name`);
+
+--
+-- Indexes for table `foods`
+--
+ALTER TABLE `foods`
+  ADD UNIQUE KEY `name` (`name`),
+  ADD KEY `supplier` (`food_supplier`);
+
+--
+-- Indexes for table `food_suppliers`
+--
+ALTER TABLE `food_suppliers`
+  ADD UNIQUE KEY `company_name` (`company_name`);
+
+--
+-- Indexes for table `guests`
+--
+ALTER TABLE `guests`
+  ADD UNIQUE KEY `person_email` (`person_email`),
+  ADD KEY `guests_booking` (`active_booking_number`);
+
+--
+-- Indexes for table `persons`
+--
+ALTER TABLE `persons`
+  ADD UNIQUE KEY `email` (`email`);
+
+--
+-- Indexes for table `reservations`
+--
+ALTER TABLE `reservations`
+  ADD UNIQUE KEY `number` (`number`);
+
+--
+-- Indexes for table `rooms`
+--
+ALTER TABLE `rooms`
+  ADD PRIMARY KEY (`number`),
+  ADD KEY `type` (`room_type`);
+
+--
+-- Indexes for table `room_types`
+--
+ALTER TABLE `room_types`
+  ADD UNIQUE KEY `type` (`type`);
+
+--
+-- Indexes for table `works`
+--
+ALTER TABLE `works`
+  ADD UNIQUE KEY `employee_person_email` (`employee_person_email`,`facility_name`),
+  ADD KEY `works_facility` (`facility_name`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `reservations`
+--
+ALTER TABLE `reservations`
+  MODIFY `number` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `bookings`
+--
+ALTER TABLE `bookings`
+  ADD CONSTRAINT `guest` FOREIGN KEY (`guest_person_email`) REFERENCES `guests` (`person_email`),
+  ADD CONSTRAINT `reservation` FOREIGN KEY (`reservation_number`) REFERENCES `reservations` (`number`),
+  ADD CONSTRAINT `room` FOREIGN KEY (`room_number`) REFERENCES `rooms` (`number`);
+
+--
+-- Constraints for table `cleans`
+--
+ALTER TABLE `cleans`
+  ADD CONSTRAINT `cleans_employee` FOREIGN KEY (`employee_person_email`) REFERENCES `employees` (`person_email`),
+  ADD CONSTRAINT `cleans_room` FOREIGN KEY (`room_number`) REFERENCES `rooms` (`number`);
+
+--
+-- Constraints for table `employees`
+--
+ALTER TABLE `employees`
+  ADD CONSTRAINT `employees_email` FOREIGN KEY (`person_email`) REFERENCES `persons` (`email`),
+  ADD CONSTRAINT `manager` FOREIGN KEY (`manager_employee_person_email`) REFERENCES `employees` (`person_email`);
+
+--
+-- Constraints for table `foods`
+--
+ALTER TABLE `foods`
+  ADD CONSTRAINT `supplier` FOREIGN KEY (`food_supplier`) REFERENCES `food_suppliers` (`company_name`);
+
+--
+-- Constraints for table `guests`
+--
+ALTER TABLE `guests`
+  ADD CONSTRAINT `guests_email` FOREIGN KEY (`person_email`) REFERENCES `persons` (`email`);
+
+--
+-- Constraints for table `rooms`
+--
+ALTER TABLE `rooms`
+  ADD CONSTRAINT `type` FOREIGN KEY (`room_type`) REFERENCES `room_types` (`type`);
+
+--
+-- Constraints for table `works`
+--
+ALTER TABLE `works`
+  ADD CONSTRAINT `works_employee` FOREIGN KEY (`employee_person_email`) REFERENCES `employees` (`person_email`),
+  ADD CONSTRAINT `works_facility` FOREIGN KEY (`facility_name`) REFERENCES `facilities` (`name`);
